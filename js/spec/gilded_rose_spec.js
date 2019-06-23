@@ -133,6 +133,20 @@ describe("Backstage passes", function() {
 });
 
 
+describe("Conjured", function() {
+
+  it("reduces in quality by two for every passing day", function() {
+    items = [ new Item("Conjured", 10, 10) ];
+    updateQualityNTimes(1)
+    expect(items[0].quality).toEqual(8);
+
+    updateQualityNTimes(2)
+    expect(items[0].quality).toEqual(6);
+  });
+
+});
+
+
 
 /**
  * A function to simulate a number of days elapsing
