@@ -133,16 +133,33 @@ describe("Backstage passes", function() {
 });
 
 
-describe.skip("Conjured", function() {
+describe("Conjoured", function() {
 
-  it("reduces in quality by two for every passing day", function() {
-    items = [ new Item("Conjured", 10, 10) ];
-    updateQualityNTimes(1)
-    expect(items[0].quality).toEqual(8);
+  const origSellIn  = 10
+  const origQuality = 50
 
-    updateQualityNTimes(2)
-    expect(items[0].quality).toEqual(6);
+  beforeEach(function() {
+    items = [ new ConjouredItem({sell_in: origSellIn, quality: origQuality}) ];
   });
+
+
+  it("should decrease in quality by two units in one day", function() {
+    updateQualityNTimes(1)
+    expect(items[0].quality).toEqual(origQuality - 2);
+    expect(items[0].sell_in).toEqual(origSellIn  - 1);
+  });
+
+  it("should decrease in quality four times as fast (i.e. by four in one day) after the sell by date has passed", function() {
+    const numDaysToExpiry   = origSellIn
+    const numAdditionalDays = 2
+    const fasterDecreasingExpectedQuality = origQuality - (numDaysToExpiry*2) - (numAdditionalDays*4)
+
+    // Pass enough days for the sellIn date to be 0, and then another so we're in rapid depreciation
+    updateQualityNTimes(numDaysToExpiry+numAdditionalDays)
+    expect(items[0].quality).toEqual(fasterDecreasingExpectedQuality);
+    expect(items[0].sell_in).toEqual(0-numAdditionalDays);
+  });
+
 
 });
 
