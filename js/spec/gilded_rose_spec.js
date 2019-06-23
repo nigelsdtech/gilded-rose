@@ -4,7 +4,7 @@ describe("A regular item", function() {
   const origQuality = 50
 
   beforeEach(function() {
-    items = [ new Item("Ketchup", origSellIn, origQuality) ];
+    items = [ new RegularItem({sell_in: origSellIn, quality: origQuality}) ];
   });
 
 
@@ -43,7 +43,7 @@ describe("Aged Brie", function() {
   const origQuality = 40
 
   beforeEach(function() {
-    items = [ new Item("Aged Brie", origSellIn, origQuality) ];
+    items = [ new AgedBrieItem({sell_in: origSellIn, quality: origQuality}) ];
   });
 
 
@@ -64,7 +64,7 @@ describe("Aged Brie", function() {
 describe("Sulfuras", function() {
 
   it("doesn't reduce in quality with the passing of time", function() {
-    items = [ new Item("Sulfuras, Hand of Ragnaros", null, 10) ];
+    items = [ new SulfurasItem({quality: 10}) ];
     updateQualityNTimes(100)
     expect(items[0].quality).toEqual(10);
   });
@@ -85,7 +85,7 @@ describe("Backstage passes", function() {
       sellIn: 15,
       numDays: 1,
       finalQuality: 21,
-      finalSellIn: 14,
+      finalSellIn: 14
     },
     {
       desc: "should increase in quality by two in one day (given there are between 5 and 10 days left)",
@@ -93,7 +93,7 @@ describe("Backstage passes", function() {
       sellIn: 10,
       numDays: 1,
       finalQuality: 22,
-      finalSellIn: 9,
+      finalSellIn: 9
     },
     {
       desc: "should increase in quality by three in one day (given there are less than 5 days left)",
@@ -101,7 +101,7 @@ describe("Backstage passes", function() {
       sellIn: 5,
       numDays: 1,
       finalQuality: 23,
-      finalSellIn: 4,
+      finalSellIn: 4
     },
     {
       desc: "should drop to 0 quality after the concert",
@@ -109,7 +109,7 @@ describe("Backstage passes", function() {
       sellIn: 5,
       numDays: 6,
       finalQuality: 0,
-      finalSellIn: -1,
+      finalSellIn: -1
     },
     {
       desc: "should not increase in quality above 50",
@@ -117,13 +117,13 @@ describe("Backstage passes", function() {
       sellIn: 5,
       numDays: 1,
       finalQuality: 50,
-      finalSellIn: 4,
+      finalSellIn: 4
     }
   ]
 
   tests.forEach( (t) => {
     it(t.desc, function() {
-      items = [ new Item(itemName, t.sellIn, t.quality ) ];
+      items = [ new BackstagePassItem({sell_in: t.sellIn, quality: t.quality} ) ];
       updateQualityNTimes(t.numDays);
       expect(items[0].quality).toEqual(t.finalQuality);
       expect(items[0].sell_in).toEqual(t.finalSellIn);
