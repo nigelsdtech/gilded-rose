@@ -133,7 +133,7 @@ describe("Backstage passes", function() {
 });
 
 
-describe("Conjured", function() {
+describe.skip("Conjured", function() {
 
   it("reduces in quality by two for every passing day", function() {
     items = [ new Item("Conjured", 10, 10) ];
